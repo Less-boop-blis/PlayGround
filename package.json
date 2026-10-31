@@ -1,0 +1,11 @@
+{
+  "name": "sapo-salvaje",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataformas 2D protagonizado por un hombre sapo: salta, pisa bichos y usa la lengua.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  }
+}

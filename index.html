@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#081512">
+<title>Sapo Salvaje — Aventura en el pantano</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='36' r='24' fill='%237ede57'/%3E%3Ccircle cx='20' cy='18' r='11' fill='%237ede57'/%3E%3Ccircle cx='44' cy='18' r='11' fill='%237ede57'/%3E%3Ccircle cx='20' cy='18' r='7' fill='%23fff'/%3E%3Ccircle cx='44' cy='18' r='7' fill='%23fff'/%3E%3Ccircle cx='22' cy='19' r='3.5' fill='%23122'/%3E%3Ccircle cx='42' cy='19' r='3.5' fill='%23122'/%3E%3Cpath d='M16 40q16 14 32 0' stroke='%23245c24' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <div id="stage">
+    <canvas id="game" width="960" height="576" aria-label="Juego de plataformas: Sapo Salvaje"></canvas>
+
+    <div class="hud-buttons">
+      <button id="btn-mute" class="round" type="button" aria-label="Silenciar sonido" title="Sonido (M)">
+        <svg class="ico-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.4v13.2L7.2 14.5H4z" fill="currentColor"/><path d="M15.5 8.6a5 5 0 0 1 0 6.8M18 6.2a8.4 8.4 0 0 1 0 11.6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="ico-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.2L12 5.4v13.2L7.2 14.5H4z" fill="currentColor"/><path d="M15 9l6 6M21 9l-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <button id="btn-pause" class="round" type="button" aria-label="Pausa" title="Pausa (P)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4.2" height="14" rx="1.4" fill="currentColor"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.4" fill="currentColor"/></svg>
+      </button>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <div id="overlay" class="overlay">
+      <div id="overlay-card" class="card"></div>
+    </div>
+  </div>
+</div>
+
+<div id="touch" class="touch" aria-hidden="true">
+  <div class="touch-group">
+    <button type="button" class="pad" data-touch="left" aria-label="Mover a la izquierda">
+      <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button type="button" class="pad" data-touch="right" aria-label="Mover a la derecha">
+      <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  <div class="touch-group">
+    <button type="button" class="pad action-tongue" data-touch="tongue" aria-label="Sacar la lengua">
+      <span class="pad-label">LENGUA</span>
+    </button>
+    <button type="button" class="pad action-jump" data-touch="jump" aria-label="Saltar">
+      <svg viewBox="0 0 24 24"><path d="M12 20V6M6 11l6-6 6 6" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="rotate-hint" role="note">
+  <div class="rotate-hint-card">
+    <svg class="rotate-phone" viewBox="0 0 64 64" aria-hidden="true">
+      <rect x="20" y="6" width="24" height="42" rx="6" fill="none" stroke="currentColor" stroke-width="3.2"/>
+      <path d="M27 13h10" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M44 40a17 17 0 0 1-7 14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      <path d="M33 51l6 3-2-7z" fill="currentColor"/>
+    </svg>
+    <strong>Gira el teléfono</strong>
+    <span>El pantano se juega en horizontal</span>
+  </div>
+</div>
+
+<script src="js/audio.js"></script>
+<script src="js/levels.js"></script>
+<script src="js/core.js"></script>
+<script src="js/render-world.js"></script>
+<script src="js/render-actors.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
