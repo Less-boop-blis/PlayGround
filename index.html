@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#0f2230">
+  <meta name="description" content="Sapo Bros: un juego de plataformas 2D con un hombre sapo, tuberías, monedas y muchos saltos.">
+  <title>Sapo Bros · Aventura anfibia</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='34' r='24' fill='%2357b84c'/%3E%3Ccircle cx='19' cy='16' r='9' fill='%2357b84c'/%3E%3Ccircle cx='45' cy='16' r='9' fill='%2357b84c'/%3E%3Ccircle cx='19' cy='15' r='6' fill='%23fff'/%3E%3Ccircle cx='45' cy='15' r='6' fill='%23fff'/%3E%3Ccircle cx='19' cy='16' r='2.5' fill='%2315221b'/%3E%3Ccircle cx='45' cy='16' r='2.5' fill='%2315221b'/%3E%3Cpath d='M18 38c6 8 22 8 28 0' stroke='%232f7d3c' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main id="app">
+    <div id="stage">
+      <div id="frame">
+        <canvas id="game" width="480" height="272" aria-label="Sapo Bros, juego de plataformas"></canvas>
+
+        <div id="hud" aria-hidden="true">
+          <div class="hud-group">
+            <span class="hud-chip"><span class="heart">♥</span><span id="hud-lives">3</span></span>
+            <span class="hud-chip"><span class="coin-dot"></span><span id="hud-coins">0</span></span>
+          </div>
+          <div class="hud-group hud-center"><span id="hud-level">PRADERA ANFIBIA</span></div>
+          <div class="hud-group hud-right">
+            <span class="hud-chip hud-score" id="hud-score">000000</span>
+            <span class="hud-chip" id="hud-time-chip"><span class="clock">◷</span><span id="hud-time">300</span></span>
+          </div>
+        </div>
+
+        <div id="touch" aria-hidden="true">
+          <div class="touch-side touch-left">
+            <button class="tbtn" data-key="left" aria-label="Izquierda">◀</button>
+            <button class="tbtn" data-key="right" aria-label="Derecha">▶</button>
+          </div>
+          <div class="touch-side touch-right">
+            <button class="tbtn tbtn-run" data-key="run" aria-label="Correr">B</button>
+            <button class="tbtn tbtn-jump" data-key="jump" aria-label="Saltar">A</button>
+          </div>
+        </div>
+
+        <div id="top-buttons">
+          <button id="btn-pause" class="icon-btn" aria-label="Pausa" title="Pausa (P)">⏸</button>
+          <button id="btn-sound" class="icon-btn" aria-label="Sonido" title="Sonido (M)">♪</button>
+          <button id="btn-fullscreen" class="icon-btn" aria-label="Pantalla completa" title="Pantalla completa">⛶</button>
+        </div>
+
+        <section class="screen" id="screen-title">
+          <div class="title-card">
+            <div class="mascot" aria-hidden="true">
+              <svg viewBox="0 0 64 64" role="img">
+                <ellipse cx="32" cy="58" rx="17" ry="3" fill="rgba(0,0,0,.25)"/>
+                <circle cx="18" cy="17" r="10" fill="#57b84c" stroke="#1b2b22" stroke-width="2.5"/>
+                <circle cx="46" cy="17" r="10" fill="#57b84c" stroke="#1b2b22" stroke-width="2.5"/>
+                <circle cx="18" cy="16" r="6" fill="#fff"/>
+                <circle cx="46" cy="16" r="6" fill="#fff"/>
+                <circle cx="19" cy="17" r="2.6" fill="#15221b"/>
+                <circle cx="45" cy="17" r="2.6" fill="#15221b"/>
+                <circle cx="32" cy="35" r="23" fill="#57b84c" stroke="#1b2b22" stroke-width="2.5"/>
+                <ellipse cx="32" cy="42" rx="13" ry="9" fill="#ffe9b3"/>
+                <path d="M22 40c3 5 17 5 20 0" stroke="#2f7d3c" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <path d="M16 50h32" stroke="#f4b93f" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h1 class="logo"><span class="logo-sapo">SAPO</span><span class="logo-bros">BROS</span></h1>
+            <p class="logo-sub">AVENTURA ANFIBIA</p>
+            <p class="tagline">Salta, aplasta bichos y croa hasta la bandera.</p>
+            <button id="btn-start" class="btn primary">JUGAR</button>
+            <div class="title-controls">
+              <span><kbd>←</kbd><kbd>→</kbd> mover</span>
+              <span><kbd>Espacio</kbd> saltar</span>
+              <span><kbd>Shift</kbd> correr</span>
+            </div>
+            <p class="best">Récord <strong id="best-score">0</strong></p>
+          </div>
+        </section>
+
+        <section class="screen hidden" id="screen-pause">
+          <div class="panel">
+            <h2>PAUSA</h2>
+            <p class="panel-sub">El pantano puede esperar.</p>
+            <div class="panel-actions">
+              <button id="btn-resume" class="btn primary">SEGUIR</button>
+              <button id="btn-restart" class="btn ghost">REINICIAR</button>
+            </div>
+            <p class="mini-hint">P o Esc para continuar</p>
+          </div>
+        </section>
+
+        <section class="screen hidden" id="screen-gameover">
+          <div class="panel">
+            <h2 class="danger">GAME OVER</h2>
+            <p class="panel-sub">El sapo se quedó sin vidas.</p>
+            <div class="stats">
+              <div><span>Puntos</span><strong id="over-score">0</strong></div>
+              <div><span>Monedas</span><strong id="over-coins">0</strong></div>
+              <div><span>Récord</span><strong id="over-best">0</strong></div>
+            </div>
+            <button id="btn-retry" class="btn primary">OTRA VEZ</button>
+          </div>
+        </section>
+
+        <section class="screen hidden" id="screen-victory">
+          <div class="panel victory">
+            <h2>¡CROACABADO!</h2>
+            <p class="panel-sub">Has llegado a la bandera del pantano.</p>
+            <div class="stats">
+              <div><span>Puntos</span><strong id="win-score">0</strong></div>
+              <div><span>Monedas</span><strong id="win-coins">0</strong></div>
+              <div><span>Bonus tiempo</span><strong id="win-bonus">0</strong></div>
+            </div>
+            <button id="btn-again" class="btn primary">JUGAR DE NUEVO</button>
+          </div>
+        </section>
+      </div>
+    </div>
+    <p id="footer-hint">
+      <span class="hide-sm">Flechas o A/D para moverte · Espacio para saltar · Shift para correr · P pausa · M sonido</span>
+      <span class="show-sm">Toca los botones para jugar · Gira el móvil para más espacio</span>
+    </p>
+  </main>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
